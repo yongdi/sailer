@@ -1,0 +1,12 @@
+*.swp
+*.swo
+*.html~
+*.js~
+*.coffee~
+*.css~
+*.less~
+*.orig
+.svn/
+node_modules/
+.idea
+npm-debug.log

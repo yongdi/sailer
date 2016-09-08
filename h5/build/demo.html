@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="format-detection" content="telephone=no"/>
+	<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+	<title>JS Bridge Test</title>
+	<script src="http://g.alicdn.com/sj/lib/jquery/dist/jquery.min.js"></script>
+	<script src="Sailer.js"></script>
+	<script type="text/javascript">
+	Sailer.setTestMode(true).testCallBack = false;
+/*
+	Sailer.on('setUserInfo', function (data) {
+		timeoutAlert(data);
+	})
+*/
+document.addEventListener("DOMContentLoaded", function(event) {
+	Sailer.on('setUserInfo', function (data) {
+		setTimeout(function(){timeoutAlert('我在DOMcontentload事件内注册');}, 0);
+	})
+});
+
+window.onload = function () {
+	Sailer.on('setUserInfo', function (data) {
+		setTimeout(function(){timeoutAlert('我onLoad事件内注册');}, 100);
+	})
+
+}
+Sailer.ready(function () {
+	setTimeout(function(){timeoutAlert('在ready事件里面，我总能取到userInfo: ' + Sailer.getUserInfo());}, 100);
+    Sailer.on('login', function (){
+        timeoutAlert('我注册了login事件,被成功执行');     
+    })
+	
+    Sailer.on('logout', function (){
+        timeoutAlert('我注册了logout事件,被成功执行');     
+    })
+});
+function timeoutAlert (obj) {
+	setTimeout(function () {
+		obj.constructor === Object ? window.alert(JSON.stringify(obj)) : window.alert(obj);
+	}, 0);
+}
+$(function () {
+	$('#openWebView').on('click', function () {
+		Sailer.open('http://www.baidu.com', function (data) {
+			console.info('(open.1)--点击打开一个新的webview');
+			setTimeout(function(){timeoutAlert(JSON.stringify(data));}, 100);
+		});
+	});
+
+	$('#openWebViewMall').on('click', function () {
+		Sailer.open('hybird://shop/index.html', function (data) {
+			console.info('(open.2)--点击打开一个新的webview,并加载商城的页面');
+			setTimeout(function(){timeoutAlert(JSON.stringify(data));}, 100);
+		});
+	});
+
+
+	$('#openWebViewAddr').on('click', function () {
+		Sailer.open('hybird://shop/index.html?name=test&key=test#select_address', function (data) {
+			console.info('(open.3)--点击打开一个新的webview,并加载商城的地址管理页,并传递一些参数');
+			setTimeout(function(){timeoutAlert(JSON.stringify(data));}, 100);
+		});
+	});
+
+	$("#redirectHttp").on('click', function () {
+		Sailer.redirect('http://www.baidu.com', function () {
+
+			console.info('(redirect.1)--点击在当前webview中加载http:www.baidu.com');
+			setTimeout(function(){timeoutAlert('redirect.1');}, 100);
+		})
+	});
+
+	$("#redirectHybird").on('click', function(){
+		Sailer.redirect('hybird://shop/index.html', function(){
+
+			console.info('(redirect.2)--点击在当前webview中加载本地商城首页shop/index.html无参数');
+			setTimeout(function(){timeoutAlert('redirect.2');}, 100);
+		})
+	});
+
+	$("#redirectHybirdWithParam").on('click', function(){
+		Sailer.redirect('hybird://shop/index.html?name=test&key=test#select_address', function(){
+			console.info('(redirect.3)--点击在当前webview中加载本地商城首页shop/index.html有参数');
+			setTimeout(function(){timeoutAlert('redirect.3');}, 100);
+		})
+	});
+
+	$("#redirectNativeOpenMall").on('click', function(){
+
+		Sailer.redirect('native://page-mall:{"subPageParam":"shop/index.html?name=test&key=test#select_address"}', function(){
+			console.info('(redirect.4)--点击跳转到原生界面之商城模块(native-call:callId279711$action:$redirect$native://page-mall:{"subPageParam":"shop/index.html?name=test&key=test#select_address"}');
+				setTimeout(function(){timeoutAlert('redirect.4');}, 100);
+			})
+	});
+
+	$("#redirectNativeSocial").on('click', function(){
+		Sailer.redirect('native://page-forum-home:{"testKey":"test"}', function(){
+			console.info('(redirect.5)--点击跳转到原生界面之社区模块(暂未定参数)');
+			setTimeout(function(){timeoutAlert('redirect.5');}, 100);
+		})
+	});
+
+	$("#redirectNativePersonSpace").on('click', function(){
+		Sailer.redirect('native://page-forum-topic-myspace:{"buddyId":"566a59642d90b237bb010d07"}', function(){
+			console.info('(redirect.6)--点击跳转到原生界面之个人空间');
+			setTimeout(function(){timeoutAlert('redirect.6');}, 100);
+		})
+	});	
+
+	$("#redirectNativeDynamicDetail").on('click', function(){
+		Sailer.redirect('native://page-forum-topic-detail:{"dynamicId":"56d7a5aed5e8b6497fcfdb10"}', function(){
+			console.info('(redirect.7)--点击跳转到原生界面的动态详情界面传入dynamicId');
+			setTimeout(function(){timeoutAlert('redirect.7');}, 100);
+		})
+	});	
+
+	$("#redirectNativePageMedicalGlucose").on('click', function(){
+		Sailer.redirect('native://page-medical-glucose:{}', function(data){
+			console.info('(redirect.8)--点击跳转到原生界面的控血糖界面暂不需要参数');
+			setTimeout(function(){timeoutAlert(JSON.stringify(data));}, 100);
+		})
+	});
+	
+	$("#redirectNativePageClinic").on('click', function(){
+		Sailer.redirect('native://page-clinic:{}', function(){
+			console.info('(redirect.9)--点击跳转到原生界面的掌上诊所暂不需要参数');
+			setTimeout(function(){timeoutAlert('redirect.9');}, 100);
+		})
+	});
+
+	$("#redirectNativePageMyCoin").on('click', function(){
+		Sailer.redirect('native://page-mycoin:{}', function(){
+			console.info('(redirect.10)--点击跳转到原生界面的我的糖币暂不需要参数');
+			setTimeout(function(){timeoutAlert('redirect.10');}, 100);
+		})
+	});
+
+	$("#redirectNativePageCustomerService").on('click', function(){
+		Sailer.redirect('native://page-customer-service:{}', function(){
+			console.info('(redirect.11)--点击跳转到原生界面的客服界面暂不需要参数');
+			setTimeout(function(){timeoutAlert('redirect.11');}, 100);
+		})
+	});
+
+	$("#redirectNativePageknowledges").on('click', function(){
+		Sailer.redirect('native://page-knowledges:{}', function(){
+			console.info('(redirect.12)--点击跳转到原生界面的糖尿病百科也就是(学知识)界面暂不需要参数');
+			setTimeout(function(){timeoutAlert('redirect.12');}, 100);
+		})
+	});
+
+	$("#redirectNativePageMedical").on('click', function(){
+		Sailer.redirect('native://page-medical:{}', function(){
+			console.info('(redirect.13)--点击跳转到原生界面医学服务首页暂不需要参数');
+			setTimeout(function(){timeoutAlert('redirect.13');}, 100);
+		})
+	});
+
+	$("#redirectNativePageConvert").on('click', function(){
+		Sailer.redirect('native://page-convert:{}', function(){
+			console.info('(redirect.14)--点击跳转到原生界面兑换礼品暂不需要参数');
+			setTimeout(function(){timeoutAlert('redirect.14');}, 100);
+		})
+	});
+
+	$("#redirectNativePageRecord").on('click', function(){
+		Sailer.redirect('native://page-change-record:{}', function(){
+			console.info('(redirect.15)--点击跳转到原生界面兑换记录暂不需要参数');
+			setTimeout(function(){timeoutAlert('redirect.15');}, 100);
+		})
+	});
+
+
+	$("#redirectNativeMyDiabeteInfo").on('click', function(){
+		Sailer.redirect('native://page-my-diabete-info:{}', function(){
+			console.info('(redirect.16)--点击跳转到原生界面健康档案暂不需要参数');
+			setTimeout(function(){timeoutAlert('redirect.16');}, 100);
+		})
+	});
+
+	$("#redirectNativeDietary").on('click', function(){
+		Sailer.redirect('native://page-dietary:{}', function(){
+			console.info('(redirect.17)--点击跳转到原生界面低糖享美味暂不需要参数');
+			setTimeout(function(){timeoutAlert('redirect.17');}, 100);
+		})
+	});
+
+
+
+	$("#redirectNativeMedicalMeal").on('click', function(){
+		Sailer.redirect('native://page-medical-meal:{}', function(){
+			console.info('(redirect.18)--点击跳转到原生界面记饮食暂不需要参数');
+			setTimeout(function(){timeoutAlert('redirect.18');}, 100);
+		})
+	});
+
+	$("#redirectNativeFavorDietary").on('click', function(){
+		Sailer.redirect('native://page-favor-dietary:{}', function(){
+			console.info('(redirect.19)--点击跳转到原生界面我的收藏不需要参数');
+			setTimeout(function(){timeoutAlert('redirect.19');}, 100);
+		})
+	});
+
+	$("#redirectNativeMedicalSports").on('click', function(){
+		Sailer.redirect('native://page-medical-sports:{}', function(){
+			console.info('(redirect.20)--点击跳转到原生界面做运动不需要参数');
+			setTimeout(function(){timeoutAlert('redirect.20');}, 100);
+		})
+	});
+
+
+	$("#redirectNativeMedicalAssistant").on('click', function(){
+		Sailer.redirect('native://page-medicine-assistant:{}', function(){
+			console.info('(redirect.21)--点击跳转到原生界面智慧扫码不需要参数');
+			setTimeout(function(){timeoutAlert('redirect.21');}, 100);
+		})
+	});
+
+	$("#redirectNativeSugarStar").on('click', function(){
+		Sailer.redirect('native://page-sugar-star:{}', function(){
+			console.info('(redirect.22)--点击跳转到原生界面控糖明星不需要参数');
+			setTimeout(function(){timeoutAlert('redirect.22');}, 100);
+		})
+	});
+
+	$("#redirectNativeInvitationCode").on('click', function(){
+		Sailer.redirect('native://page-invitation-code:{}', function(){
+			console.info('(redirect.23)--点击跳转到原生界面推荐有奖不需要参数');
+			setTimeout(function(){timeoutAlert('redirect.23');}, 100);
+		})
+	});
+
+	$("#redirectNativeMywarn").on('click', function(){
+		Sailer.redirect('native://page-mywarn:{}', function(){
+			console.info('(redirect.24)--点击跳转到原生界面我的提醒不需要参数');
+			setTimeout(function(){timeoutAlert('redirect.24');}, 100);
+		})
+	});
+
+	$("#redirectNativeForumCircle").on('click', function(){
+		Sailer.redirect('native://page-forum-circle:{"circleId":"56d41291d5e8b6497fcfd9ea"}', function(){
+			console.info('(redirect.25)--点击跳转到原生界面圈子详情');
+			setTimeout(function(){timeoutAlert('redirect.25');}, 100);
+		})
+	});
+
+	$("#redirectNativeOpenMallNoParam").on('click', function(){
+
+		Sailer.redirect('native://page-mall:{}', function(){
+			console.info('(redirect.26)--点击跳转到原生界面之商城模块无参数跳转(native-call:callId279711$action:$redirect$native://page-mall:{}');
+				setTimeout(function(){timeoutAlert('redirect.26');}, 100);
+			})
+	});
+
+
+
+
+
+
+	$("#jumpToMallPage").on('click', function () {
+		Sailer.redirect('native-call:callId279711$action:$redirect$native://page-mall:{"URLString":"index.html"}', function () {
+			console.info('跳转商城首页');
+//				timeoutAlert(JSON.stringify(data));
+})
+	});
+
+	$("#jumpToSocialPersonSpace").on('click', function () {
+		Sailer.redirect('native-call:callId279711$action:$redirect$native://page-forum-topic-myspace:{"id":"574bb6f2d5e8b6557a487667"}', function () {
+			console.info('点击在同一个webview内进行页面跳转');
+//				timeoutAlert(JSON.stringify(data));
+})
+	});
+
+	$('#openMall').on('click', function () {
+		Sailer.openMall('hybird://shop/index.html?name=test&key=test#select_address', function (data) {
+			timeoutAlert(JSON.stringify(data));
+		});
+	});
+
+	$('#closeBrowser').on('click', function () {
+		Sailer.closeBrowser('', function (data) {
+			console.info(data);
+		});
+	});
+
+
+	$('#callLogin').on('click', function () {
+		var priveValue = 'this is my priveValute';
+		Sailer.callLogin('', function (data) {
+			console.info('唤起hybird登陆框,并且我可以获得privateValue:' + priveValue);
+			timeoutAlert(data);
+			//timeoutAlert(JSON.stringify(data));
+		}, function (data) {
+			timeoutAlert('fail');
+			timeoutAlert(data);
+
+		});
+	});
+
+	$('#callLogout').on('click', function () {
+		var priveValue = 'this is Logout';
+		Sailer.callLogout('', function (data) {
+			console.info('退出登录');
+			timeoutAlert(data);
+		});
+	});
+
+
+	$("#callShare").on("click", function () {
+		var pirveValue='im share hybird call';
+		Sailer.openShare(
+		{
+			link:"http://www.baidu.com",
+			title:"我是分享测试",
+			desc:"我是描述",
+			"img_url":"http://www.baidu.com/img/test.jpg"
+		}, function (data) {
+			console.log(data);
+		});
+	});
+
+	$("#callCamera").on("click", function () {
+		Sailer.openCamera('native-call:callId279711$action:$openCamera', function (data) {
+			console.log(data);
+		})
+	});
+
+	$("#callMicrophone").on("click", function () {
+		Sailer.openMicrophone('', function (data) {
+			console.log(data);
+		});
+	});
+
+	$("#callCopyWord").on("click", function () {
+		Sailer.copyWord('copyWord - test', function (data) {
+            timeoutAlert(data);
+		});
+	});
+
+	$("#asyncGetUserInfo").on("click", function () {
+		Sailer.asyncGetUserInfo(function (data) {
+            timeoutAlert(data);
+		});
+	});
+
+	$("#openCommunity").on("click", function () {
+		Sailer.openCommunity('', function (data) {
+			console.log(data);
+		});
+	});
+
+	$("#callNativeBack").on("click", function () {
+		Sailer.callNativeBack('', function (data) {
+			console.info("调取hybird原生的返回功能");
+			console.log(data);
+		});
+	});
+
+	$("#configNavBar").on("click", function() { // TBD
+		Sailer.configNavBar({
+			"share": {
+				link:"http://www.baidu.com",
+				title:"我是分享测试",
+				desc:"我是描述",
+				imgUrl:"http://www.baidu.com/img/test.jpg"
+			}
+		}, function(data) {
+			console.log(data);
+		});
+	});
+
+	$('#yinLianPay').on('click', function () {
+		$.post('http://api2.91jkys.com/mall/v3/testpay', {payway: 3}).done(function (data) {
+			Sailer.yinLianPay(data.payString, function (d) {
+				timeoutAlert('success');
+				timeoutAlert(d);
+			}, function (d) {
+				timeoutAlert('fail');	
+				timeoutAlert(d);
+			})
+		});
+	});
+
+	$('#aliPay').on('click', function () {
+		$.post('http://api2.91jkys.com/mall/v3/testpay', {payway: 2}).done(function (data) {
+			Sailer.aliPay(data.payString, function (d) {
+				timeoutAlert('success');
+				timeoutAlert(d);
+			}, function (d) {
+				timeoutAlert('fail');	
+				timeoutAlert(d);
+			})
+		});
+	});
+
+	$('#wxpay').on('click', function () {
+		$.post('http://api2.91jkys.com/mall/v3/testpay', {payway: 4}).done(function (data) {
+			Sailer.wxpay(data.payString, function (d) {
+				timeoutAlert('success');
+				timeoutAlert(d);
+			}, function (d) {
+				timeoutAlert('fail');	
+				timeoutAlert(d);
+			})
+		});
+	});
+    $('#callLoginNew').on('click', function () {
+        Sailer.callLogin('',function (){
+            timeoutAlert('loginSuccess')     
+        }, function (){
+            timeoutAlert('loginFail') 
+        })
+    });
+
+    $('#callLogoutNew').on('click', function () {
+        Sailer.callLogout('',function (){
+            timeoutAlert('logoutSuccess')     
+        }, function (){
+            timeoutAlert('logoutFail') 
+        })
+    });
+    $('#showTabBar').on('click', function () {
+        Sailer.showTabBar();
+    });
+
+    $('#hideTabBar').on('click', function () {
+        Sailer.hideTabBar();
+    });
+
+});
+
+</script>
+<style>
+body {
+	padding-bottom: 30px;
+}
+button {
+	display: block;
+	width: 100%;
+	min-height: 30px;
+	background: #000;
+	color: #FFF;
+	margin: 10px 0px;
+}
+button.red {
+	background: #F00;
+}
+</style>
+</head>
+<body>
+
+	
+	<button id="openWebView">(open.1)--点击打开一个新的webview</button>
+	<button id="openWebViewMall">(open.2)--点击打开一个新的webview,并加载hybird页面</button>
+	<button id="openWebViewAddr">(open.3)--点击打开一个新的webview,并加载商城的地址管理页,并传递一些参数</button>
+	<button id="redirectHttp">(redirect.1)--点击在当前webview中加载http:www.baidu.com</button>
+	<button id="redirectHybird">(redirect.2)--点击在当前webview中加载本地商城首页shop/index.html无参数</button>
+	<button id="redirectHybirdWithParam">(redirect.3)--点击在当前webview中加载本地商城首页shop/index.html有参数</button>
+	<button id="redirectNativeOpenMall">(redirect.4)--点击跳转到原生界面之商城模块(native-call:callId279711$action:$redirect$native://page-mall:{"subPageParam":"shop/index.html?name=test&key=test#select_address"}</button>
+	<button id="redirectNativeSocial">(redirect.5)--点击跳转到原生界面之社区模块(暂未定参数)</button>
+	<button id="redirectNativePersonSpace">(redirect.6)--点击跳转到原生界面之个人空间</button>
+	<!-- 下面是7.7号内容-->
+	<button id="redirectNativeDynamicDetail">(redirect.7)--点击跳转到原生界面的动态详情界面传入dynamicId</button>
+	<button id="redirectNativePageMedicalGlucose">(redirect.8)--点击跳转到原生界面的控血糖界面暂不需要参数</button>
+	<button id="redirectNativePageClinic">(redirect.9)--点击跳转到原生界面的掌上诊所暂不需要参数</button>
+	<button id="redirectNativePageMyCoin">(redirect.10)--点击跳转到原生界面的我的糖币暂不需要参数</button>
+	<button id="redirectNativePageCustomerService">(redirect.11)--点击跳转到原生界面的客服界面暂不需要参数</button>
+	<button id="redirectNativePageknowledges">(redirect.12)--点击跳转到原生界面的糖尿病百科也就是(学知识)界面暂不需要参数</button>
+	<button id="redirectNativePageMedical">(redirect.13)--点击跳转到原生界面医学服务首页暂不需要参数</button>
+	<button id="redirectNativePageConvert">(redirect.14)--点击跳转到原生界面兑换礼品暂不需要参数</button>
+	<button id="redirectNativePageRecord">(redirect.15)--点击跳转到原生界面兑换记录暂不需要参数'</button>
+	<button id="redirectNativeMyDiabeteInfo">(redirect.16)--点击跳转到原生界面健康档案暂不需要参数'</button>
+	<button id="redirectNativeDietary">(redirect.17)--点击跳转到原生界面低糖享美味暂不需要参数'</button>
+	<button id="redirectNativeMedicalMeal">(redirect.18)--点击跳转到原生界面记饮食暂不需要参数'</button>
+	<button id="redirectNativeFavorDietary">(redirect.19)--点击跳转到原生界面我的收藏不需要参数'</button>
+	<button id="redirectNativeMedicalSports">(redirect.20)--点击跳转到原生界面做运动不需要参数'</button>
+	<button id="redirectNativeMedicalAssistant">(redirect.21)--点击跳转到原生界面智慧扫码不需要参数'</button>
+	<button id="redirectNativeSugarStar">(redirect.22)--点击跳转到原生界面控糖明星不需要参数'</button>
+	<button id="redirectNativeInvitationCode">(redirect.23)--点击跳转到原生界面推荐有奖不需要参数'</button>
+	<button id="redirectNativeMywarn">(redirect.24)--点击跳转到原生界面我的提醒不需要参数'</button>
+	<button id="redirectNativeForumCircle">(redirect.25)--点击跳转到原生界面圈子详情'</button>
+	<button id="redirectNativeOpenMallNoParam">(redirect.26)--点击跳转到原生界面之商城模块无参数'</button>
+	<button id="asyncGetUserInfo">asyncGetUserInfo点击获取用户信息</button>
+
+
+
+	<button id="callNativeBack">点击返回上一个页面的hybird实现</button>
+	<button id="openMall">打开位于tab的商城</button>
+	<button id="closeBrowser">关闭当前活动的browser</button>
+	<button id="callLogin">唤起hybird登陆框</button>
+	<button id="callLogout">直接退出APP的登录</button>
+	<button id="callShare">唤起hybird分享</button>
+	<button id="callCamera">唤起hybird摄像头</button>
+	<button id="callMicrophone">唤起hybird麦克风</button>
+	<button id="callCopyWord">唤起复制粘贴</button>
+	<button id="openCommunity">打开社区</button>
+	<button id="configNavBar">配置导航标题栏</button>
+	<button id="jumpToTemplate" onclick="javascript:Sailer.open('http://static2.91jkys.com/activity/build/html/template/index.html')">跳转至活动模板页(Sailer.open)</button>
+	<button id="jumpToTemplate2" onclick="location.href='http://static2.91jkys.com/activity/build/html/template/index.html'">跳转至活动模板页2(location.href)</button>
+
+	<button id="yinLianPay" class="red">银联支付</button>
+	<button id="wxpay" class="red">微信支付</button>
+	<button id="aliPay" class="red">支付宝支付</button>
+    <button onclick="javascript:Sailer.open('http://static.91jkys.com/sailer/build/activityPage.html')">到活动页去</a>
+    <button id="callLoginNew">唤起登陆框</button>
+    <button id="callLogoutNew">登出</button>
+    <button id="showTabBar">显示底部的tab</button>
+    <button id="hideTabBar">隐藏底部的tab</button>
+</body>
+</html>

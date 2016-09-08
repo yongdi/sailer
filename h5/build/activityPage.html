@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="format-detection" content="telephone=no"/>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+    <title>JS Bridge Test</title>
+    <script src="http://g.alicdn.com/sj/lib/jquery/dist/jquery.min.js"></script>
+    <script src="Sailer.js"></script>
+    <script type="text/javascript">
+        //        Sailer.setTestMode(true).testCallBack = false;
+        //        Sailer.on('setUserInfo', function (data) {
+        //            alert(data);
+        //        })
+        Sailer.ready(function () {
+            alert('在ready事件里面，我总能取到userInfo: ' + Sailer.getUserInfo());
+        });
+        $(function () {
+//            调用native 返回的功能
+            $("#return").on("click", function () {
+                $(this).css({"color":"#fff","backgroundColor","red"});
+                Sailer.callNativeBack('', function (data) {
+                    $(this).css({"color":"#fff","backgroundColor","#000"});
+                    console.info("调取hybird原生的返回功能");
+                    console.log(data);
+                });
+            });
+
+            //进入 活动页 open方法
+            $("#openActivity").on("click", function (data) {
+                $(this).css({"color":"#fff","backgroundColor","red"});
+                Sailer.redirect('http://10.0.50.117:8085/build/activityPage.html', function(){
+                    $(this).css({"color":"#fff","backgroundColor","#000"});
+                    console.info('(redirect)--点击跳转到原生界面之社区详情页');
+                    console.log(JSON.stringify(data));
+                });
+            });
+            // 进入 活动页 redirect方法
+        });
+    </script>
+    <style>
+        button {
+            display: block;
+            width: 100%;
+            min-height: 30px;
+            background: #000;
+            color: #FFF;
+            margin: 10px 0px;
+        }
+    </style>
+</head>
+<body>
+    <a href="activityPage2.html" title="">到activityPage2去</a>
+    <button onclick="javascript:Sailer.callNativeBack()">返回</button>
+</body>
+</html>

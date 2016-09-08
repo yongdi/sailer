@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+	<script src="Sailer.js"></script>
+    <script type="text/javascript">
+Sailer.setTestMode(true);
+Sailer.on('login', function (){
+    Sailer.log('login success')        
+});   
+Sailer.on('logout', function (){
+    Sailer.log('logout success')
+});
+    </script>
+</head>
+<body>
+    <button onclick="javascript:Sailer.callNativeBack()">返回</button>
+</body>
+</html>

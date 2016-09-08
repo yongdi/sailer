@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="format-detection" content="telephone=no"/>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+    <title>JS Bridge Test</title>
+    <script src="http://g.alicdn.com/sj/lib/jquery/dist/jquery.min.js"></script>
+    <script src="Sailer.js"></script>
+    <script type="text/javascript">
+//        Sailer.setTestMode(true).testCallBack = false;
+//        Sailer.on('setUserInfo', function (data) {
+//            alert(data);
+//        })
+        Sailer.ready(function () {
+            alert('在ready事件里面，我总能取到userInfo: ' + Sailer.getUserInfo());
+        });
+        $(function () {
+//            调用native 返回的功能
+            $("#return").on("click", function () {
+                $(this).css({"color":"#fff","backgroundColor":"red"});
+                Sailer.callNativeBack('', function (data) {
+                    $(this).css({"color":"#fff","backgroundColor":"#000"});
+                    console.info("调取hybird原生的返回功能");
+                    console.log(data);
+                });
+            });
+//            原生跳转
+            //进入社区首页 open方法
+//            $("#openCommulity").on("click", function (data) {
+//            $(this).css({"color":"#fff","backgroundColor":"red"});
+//                                Sailer.open('native://page-forum-home:{"testKey":"test"}', function(){
+//             $(this).css({"color":"#fff","backgroundColor":"#000"});
+//                    console.info('(redirect)--点击跳转到原生界面之社区模块(暂未定参数)');
+//                                    console.log(JSON.stringify(data));
+//            });
+//            });
+                //进入社区首页 redirect方法
+            $("#openCommulity").on("click", function (data) {
+                $(this).css({"color":"#fff","backgroundColor":"red"});
+                                Sailer.redirect('native://page-forum-home:{"testKey":"test"}', function(){
+                                    $(this).css({"color":"#fff","backgroundColor":"#000"});
+                    console.info('(redirect)--点击跳转到原生界面之社区模块');
+                                    console.log(JSON.stringify(data));
+            });
+            });
+            //进入社区详情页 open方法
+//            $("#openCommulityDetail").on("click", function (data) {
+//            $(this).css({"color":"#fff","backgroundColor":"red"});
+//                                Sailer.open('native://page-forum-topic-detail:{"dynamicId":"56d7a5aed5e8b6497fcfdb10"}', function(){
+//            $(this).css({"color":"#fff","backgroundColor":"#000"});
+//                    console.info('(redirect)--点击跳转到原生界面之社区详情页');
+//                                    console.log(JSON.stringify(data));
+//                  });
+//            });
+                // 进入社区详情页 redirect方法
+            $("#openCommulityDetail").on("click", function (data) {
+                $(this).css({"color":"#fff","backgroundColor":"red"});
+                                Sailer.redirect('native://page-forum-topic-detail:{"dynamicId":"56d7a5aed5e8b6497fcfdb10"}', function(){
+                                    $(this).css({"color":"#fff","backgroundColor":"#000"});
+                                    console.info('(redirect)--点击跳转到原生界面之社区详情页');
+                                    console.log(JSON.stringify(data));
+                 });
+            });
+            //进入社区圈子 open方法
+//            $("#openCommulityZoo").on("click", function (data) {
+//            $(this).css({"color":"#fff","backgroundColor":"red"});
+//
+//                Sailer.open('native://name:{"param":"test"}', function(){
+//            $(this).css({"color":"#fff","backgroundColor":"#000"});
+//                    console.info('(redirect)--点击跳转到社区圈子页面');
+//                                    console.log(JSON.stringify(data));
+//            });
+//            });
+                // 进入社区圈子 redirect方法
+            $("#openCommulityZoo").on("click", function (data) {
+                $(this).css({"color":"#fff","backgroundColor":"red"});
+                                Sailer.redirect('native://name:{"param":"test"}', function(){
+                                    $(this).css({"color":"#fff","backgroundColor":"#000"});
+                                    console.info('(redirect)--点击跳转到原生界面之社区圈子页面');
+                                    console.log(JSON.stringify(data));
+            });
+            });
+            //进入 我的抵用卷 open方法
+            $("#openMyCoupon").on("click", function (data) {
+                $(this).css({"color":"#fff","backgroundColor":"red"});
+                                Sailer.open('native://name:{"param":"test"}', function(){
+                                    $(this).css({"color":"#fff","backgroundColor":"#000"});
+                    console.info('(redirect)--点击跳转到原生界面之我的抵用券');
+                                    console.log(JSON.stringify(data));
+            });
+            });
+                // 进入 我的抵用卷 redirect方法
+            $("#openMyCoupon").on("click", function (data) {
+                $(this).css({"color":"#fff","backgroundColor":"red"});
+                                Sailer.redirect('native://name:{"param":"test"}', function(){
+                                    $(this).css({"color":"#fff","backgroundColor":"#000"});
+                                    console.info('(redirect)--点击跳转到原生界面之我的抵用券');
+                                    console.log(JSON.stringify(data));
+            });
+            });
+            //进入 健康档案 open方法
+            $("#openMyHealthy").on("click", function (data) {
+                $(this).css({"color":"#fff","backgroundColor":"red"});
+                                Sailer.open('native://name:{"param":"test"}', function(){
+                                    $(this).css({"color":"#fff","backgroundColor":"#000"});
+                    console.info('(redirect)--点击跳转到原生界面之健康档案');
+                                    console.log(JSON.stringify(data));
+            });
+            });
+                // 进入 健康档案 redirect方法
+            $("#openMyHealthy").on("click", function (data) {
+                $(this).css({"color":"#fff","backgroundColor":"red"});
+                                Sailer.redirect('native://name:{"param":"test"}', function(){
+                                    $(this).css({"color":"#fff","backgroundColor":"#000"});
+                                    console.info('(redirect)--点击跳转到原生界面之健康档案');
+                                    console.log(JSON.stringify(data));
+            });
+            });
+            //进入 医学服务首页 open方法
+//            $("#openServiceIndex").on("click", function (data) {
+//            $(this).css({"color":"#fff","backgroundColor":"red"});
+//                                Sailer.open('native://page-medical:{}', function(){
+//            $(this).css({"color":"#fff","backgroundColor":"#000"});
+//                    console.info('(redirect)--点击跳转到原生界面之医学服务首页');
+//                                    console.log(JSON.stringify(data));
+//            });
+//            });
+                // 进入 医学服务首页 redirect方法
+            $("#openServiceIndex").on("click", function (data) {
+                $(this).css({"color":"#fff","backgroundColor":"red"});
+                                Sailer.redirect('native://page-medical:{}', function(){
+                                    $(this).css({"color":"#fff","backgroundColor":"#000"});
+                                    console.info('(redirect)--点击跳转到原生界面之医学服务首页');
+                                    console.log(JSON.stringify(data));
+            });
+            });
+            //进入 商品详情页 open方法
+            $("#openProductDetail").on("click", function (data) {
+                $(this).css({"color":"#fff","backgroundColor":"red"});
+                                Sailer.open('native://name:{"param":"test"}', function(){
+                                    $(this).css({"color":"#fff","backgroundColor":"#000"});
+                    console.info('(redirect)--点击跳转到原生界面之商品详情页');
+                                    console.log(JSON.stringify(data));
+            });
+            });
+                // 进入 商品详情页 redirect方法
+            $("#openProductDetail").on("click", function (data) {
+                $(this).css({"color":"#fff","backgroundColor":"red"});
+                                Sailer.redirect('native://name:{"param":"test"}', function(){
+                                    $(this).css({"color":"#fff","backgroundColor":"#000"});
+                                    console.info('(redirect)--点击跳转到原生界面之商品详情页');
+                                    console.log(JSON.stringify(data));
+            });
+            });
+//            //进入 控血糖 open方法
+//            $("#openControlSugar").on("click", function (data) {
+//            $(this).css({"color":"#fff","backgroundColor":"red"});
+//                                Sailer.open('native://page-medical-glucose:{}', function(){
+//            $(this).css({"color":"#fff","backgroundColor":"#000"});
+//                    console.info('(redirect)--点击跳转到原生界面之社区详情页');
+//                                    console.log(JSON.stringify(data));
+//            });
+//            });
+                // 进入 控血糖 redirect方法
+            $("#openControlSugar").on("click", function (data) {
+                $(this).css({"color":"#fff","backgroundColor":"red"});
+                                Sailer.redirect('native://page-medical-glucose:{}', function(){
+                                    $(this).css({"color":"#fff","backgroundColor":"#000"});
+                                    console.info('(redirect)--点击跳转到原生界面之控血糖');
+                                    console.log(JSON.stringify(data));
+            });
+            });
+            //进入 记饮食 open方法
+            $("#openWriteFood").on("click", function (data) {
+                $(this).css({"color":"#fff","backgroundColor":"red"});
+                                Sailer.open('native://name:{"param":"test"}', function(){
+                                    $(this).css({"color":"#fff","backgroundColor":"#000"});
+                    console.info('(redirect)--点击跳转到原生界面之记饮食');
+                                    console.log(JSON.stringify(data));
+            });
+            });
+                // 进入 记饮食 redirect方法
+            $("#openWriteFood").on("click", function (data) {
+                $(this).css({"color":"#fff","backgroundColor":"red"});
+                                Sailer.redirect('native://name:{"param":"test"}', function(){
+                                    $(this).css({"color":"#fff","backgroundColor":"#000"});
+                                    console.info('(redirect)--点击跳转到原生界面之记饮食');
+                                    console.log(JSON.stringify(data));
+            });
+            });
+            //进入 做运动 open方法
+            $("#openDoSports").on("click", function (data) {
+                $(this).css({"color":"#fff","backgroundColor":"red"});
+                                Sailer.open('native://name:{"param":"test"}', function(){
+                                    $(this).css({"color":"#fff","backgroundColor":"#000"});
+                    console.info('(redirect)--点击跳转到原生界面之做运动');
+                                    console.log(JSON.stringify(data));
+            });
+            });
+                // 进入 做运动 redirect方法
+            $("#openDoSports").on("click", function (data) {
+                $(this).css({"color":"#fff","backgroundColor":"red"});
+                                Sailer.redirect('native://name:{"param":"test"}', function(){
+                                    $(this).css({"color":"#fff","backgroundColor":"#000"});
+                                    console.info('(redirect)--点击跳转到原生界面之做运动');
+                                    console.log(JSON.stringify(data));
+            });
+            });
+            //进入 学知识 open方法
+//            $("#openStudy").on("click", function (data) {
+//            $(this).css({"color":"#fff","backgroundColor":"red"});
+//                                Sailer.open('native://page-knowledges:{}', function(){
+//            $(this).css({"color":"#fff","backgroundColor":"#000"});
+//                    console.info('(redirect)--点击跳转到原生界面之学知识');
+//                                    console.log(JSON.stringify(data));
+//            });
+//            });
+                // 进入 学知识 redirect方法
+            $("#openStudy").on("click", function (data) {
+                $(this).css({"color":"#fff","backgroundColor":"red"});
+                                Sailer.redirect('native://page-knowledges:{}', function(){
+                                    $(this).css({"color":"#fff","backgroundColor":"#000"});
+                                    console.info('(redirect)--点击跳转到原生界面之学知识');
+                                    console.log(JSON.stringify(data));
+            });
+            });
+            //进入 低糖享美味／菜谱详情页 open方法
+            $("#openLowSugarDetail").on("click", function (data) {
+                $(this).css({"color":"#fff","backgroundColor":"red"});
+                                Sailer.open('native://name:{"param":"test"}', function(){
+                                    $(this).css({"color":"#fff","backgroundColor":"#000"});
+                    console.info('(redirect)--点击跳转到原生界面之低糖享美味/菜谱详情页');
+                                    console.log(JSON.stringify(data));
+            });
+            });
+                // 进入 低糖享美味／菜谱详情页 redirect方法
+            $("#openLowSugarDetail").on("click", function (data) {
+                $(this).css({"color":"#fff","backgroundColor":"red"});
+                                Sailer.redirect('native://name:{"param":"test"}', function(){
+                                    $(this).css({"color":"#fff","backgroundColor":"#000"});
+                                    console.info('(redirect)--点击跳转到原生界面之低糖享美味/菜谱详情页');
+                                    console.log(JSON.stringify(data));
+            });
+            });
+            //进入 掌上诊所 open方法
+            $("#openClinic").on("click", function (data) {
+                $(this).css({"color":"#fff","backgroundColor":"red"});
+                                Sailer.open('native://page-clinic:{}', function(){
+                                    $(this).css({"color":"#fff","backgroundColor":"#000"});
+                    console.info('(redirect)--点击跳转到原生界面之掌上诊所');
+                                    console.log(JSON.stringify(data));
+            });
+            });
+                // 进入 掌上诊所 redirect方法
+            $("#openClinic").on("click", function (data) {
+                $(this).css({"color":"#fff","backgroundColor":"red"});
+                                Sailer.redirect('native://page-clinic:{}', function(){
+                                    $(this).css({"color":"#fff","backgroundColor":"#000"});
+                                    console.info('(redirect)--点击跳转到原生界面之掌上诊所');
+                                    console.log(JSON.stringify(data));
+            });
+            });
+            //进入 智慧扫码 open方法
+            $("#openReadCode").on("click", function (data) {
+                $(this).css({"color":"#fff","backgroundColor":"red"});
+                                Sailer.open('native://name:{"param":"test"}', function(){
+                                    $(this).css({"color":"#fff","backgroundColor":"#000"});
+                    console.info('(redirect)--点击跳转到原生界面之智慧扫码');
+                                    console.log(JSON.stringify(data));
+            });
+            });
+                // 进入 智慧扫码 redirect方法
+            $("#openReadCode").on("click", function (data) {
+                $(this).css({"color":"#fff","backgroundColor":"red"});
+                                Sailer.redirect('native://name:{"param":"test"}', function(){
+                                    $(this).css({"color":"#fff","backgroundColor":"#000"});
+                                    console.info('(redirect)--点击跳转到原生界面之智慧扫码');
+                                    console.log(JSON.stringify(data));
+            });
+            });
+//            //进入 我的—我的糖币 open方法
+//            $("#openMySugarCoin").on("click", function (data) {
+//            $(this).css({"color":"#fff","backgroundColor":"red"});
+//                                Sailer.open('native://page-mycoin:{}', function(){
+//            $(this).css({"color":"#fff","backgroundColor":"#000"});
+//                                    console.info('(redirect)--点击跳转到原生界面之我的糖币');
+//                                    console.log(JSON.stringify(data));
+//            });
+//            });
+                // 进入 我的—我的糖币 redirect方法
+            $("#openMySugarCoin").on("click", function (data) {
+                $(this).css({"color":"#fff","backgroundColor":"red"});
+                                Sailer.redirect('native://page-mycoin:{}', function(){
+                                    $(this).css({"color":"#fff","backgroundColor":"#000"});
+                                    console.info('(redirect)--点击跳转到原生界面之我的糖币');
+                                    console.log(JSON.stringify(data));
+            });
+            });
+            //进入 我的—我的收藏 open方法
+            $("#openMyCollection").on("click", function (data) {
+                $(this).css({"color":"#fff","backgroundColor":"red"});
+                                Sailer.open('native://name:{"param":"test"}', function(){
+                                    $(this).css({"color":"#fff","backgroundColor":"#000"});
+                    console.info('(redirect)--点击跳转到原生界面之我的收藏');
+                                    console.log(JSON.stringify(data));
+            });
+            });
+                // 进入 我的—我的收藏 redirect方法
+            $("#openMyCollection").on("click", function (data) {
+                $(this).css({"color":"#fff","backgroundColor":"red"});
+                                Sailer.redirect('native://name:{"param":"test"}', function(){
+                                    $(this).css({"color":"#fff","backgroundColor":"#000"});
+                                    console.info('(redirect)--点击跳转到原生界面之我的收藏');
+                                    console.log(JSON.stringify(data));
+            });
+            });
+            //进入 我的—推荐有奖 open方法
+            $("#openMyRecommend").on("click", function (data) {
+                $(this).css({"color":"#fff","backgroundColor":"red"});
+                                Sailer.open('native://name:{"param":"test"}', function(){
+                                    $(this).css({"color":"#fff","backgroundColor":"#000"});
+                    console.info('(redirect)--点击跳转到原生界面之推荐有奖');
+                                    console.log(JSON.stringify(data));
+            });
+            });
+                // 进入 我的—推荐有奖 redirect方法
+            $("#openMyRecommend").on("click", function (data) {
+                $(this).css({"color":"#fff","backgroundColor":"red"});
+                                Sailer.redirect('native://name:{"param":"test"}', function(){
+                                    $(this).css({"color":"#fff","backgroundColor":"#000"});
+                                    console.info('(redirect)--点击跳转到原生界面之推荐有奖');
+                                    console.log(JSON.stringify(data));
+            });
+            });
+            //进入 我的—我的提醒 open方法
+            $("#openMyRemind").on("click", function (data) {
+                $(this).css({"color":"#fff","backgroundColor":"red"});
+                                Sailer.open('native://name:{"param":"test"}', function(){
+                                    $(this).css({"color":"#fff","backgroundColor":"#000"});
+                    console.info('(redirect)--点击跳转到原生界面之我的提醒');
+                                    console.log(JSON.stringify(data));
+            });
+            });
+                // 进入 我的—我的提醒 redirect方法
+            $("#openMyRemind").on("click", function (data) {
+                $(this).css({"color":"#fff","backgroundColor":"red"});
+                                Sailer.redirect('native://name:{"param":"test"}', function(){
+                                    $(this).css({"color":"#fff","backgroundColor":"#000"});
+                                    console.info('(redirect)--点击跳转到原生界面之我的提醒');
+                                    console.log(JSON.stringify(data));
+            });
+            });
+            //进入 兑换礼品 open方法
+            $("#openExchangeGifts").on("click", function (data) {
+                $(this).css({"color":"#fff","backgroundColor":"red"});
+                                Sailer.open('native://name:{"param":"test"}', function(){
+                                    $(this).css({"color":"#fff","backgroundColor":"#000"});
+                    console.info('(redirect)--点击跳转到原生界面之兑换礼品');
+                                    console.log(JSON.stringify(data));
+            });
+            });
+                // 进入 兑换礼品 redirect方法
+            $("#openExchangeGifts").on("click", function (data) {
+                $(this).css({"color":"#fff","backgroundColor":"red"});
+                                Sailer.redirect('native://name:{"param":"test"}', function(){
+                                    $(this).css({"color":"#fff","backgroundColor":"#000"});
+                                    console.info('(redirect)--点击跳转到原生界面之兑换礼品');
+                                    console.log(JSON.stringify(data));
+            });
+            });
+            //进入 兑换记录 open方法
+            $("#openRecord").on("click", function (data) {
+                $(this).css({"color":"#fff","backgroundColor":"red"});
+                                Sailer.open('native://name:{"param":"test"}', function(){
+                                    $(this).css({"color":"#fff","backgroundColor":"#000"});
+                    console.info('(redirect)--点击跳转到原生界面之兑换记录');
+                                    console.log(JSON.stringify(data));
+            });
+            });
+                // 进入 兑换记录 redirect方法
+            $("#openRecord").on("click", function (data) {
+                $(this).css({"color":"#fff","backgroundColor":"red"});
+                                Sailer.redirect('native://name:{"param":"test"}', function(){
+                                    $(this).css({"color":"#fff","backgroundColor":"#000"});
+                                    console.info('(redirect)--点击跳转到原生界面之兑换记录');
+                                    console.log(JSON.stringify(data));
+            });
+            });
+            //进入 控糖明星 open方法
+            $("#openControlSugarStar").on("click", function (data) {
+                $(this).css({"color":"#fff","backgroundColor":"red"});
+                                Sailer.open('native://name:{"param":"test"}', function(){
+                                    $(this).css({"color":"#fff","backgroundColor":"#000"});
+                    console.info('(redirect)--点击跳转到原生界面之控糖明星');
+                                    console.log(JSON.stringify(data));
+            });
+            });
+                // 进入 控糖明星 redirect方法
+            $("#openControlSugarStar").on("click", function (data) {
+                $(this).css({"color":"#fff","backgroundColor":"red"});
+                                Sailer.redirect('native://name:{"param":"test"}', function(){
+                                    $(this).css({"color":"#fff","backgroundColor":"#000"});
+                                    console.info('(redirect)--点击跳转到原生界面之控糖明星');
+                                    console.log(JSON.stringify(data));
+            });
+            });
+
+//分享功能
+            $("#callShare").on("click", function () {
+                var pirveValue='im share hybird call';
+                Sailer.openShare(
+                        {
+                            link:"http://www.baidu.com",
+                            title:"我是分享测试",
+                            desc:"我是描述",
+                            "img_url":"http://www.baidu.com/img/test.jpg"
+                        }, function (data) {
+                            console.log(data);
+                        });
+            });
+
+//            商城活动页跳转
+
+//hybrid页面跳转
+            //首页
+            $('#openMall').on('click', function () {
+                $(this).css({"color":"#fff","backgroundColor":"red"});
+                Sailer.open('hybird://shop/index.html', function (data) {
+                    $(this).css({"color":"#fff","backgroundColor":"#000"});
+                    console.info('(open)--点击打开一个新的webview,并加载商城的页面');
+                    alert(JSON.stringify(data));
+                });
+            });
+          //   商品详情页
+            $('#openMallDetail').on('click', function () {
+                $(this).css({"color":"#fff","backgroundColor":"red"});
+                Sailer.open('hybird://shop/index.html#detail/1234', function (data) {
+                    $(this).css({"color":"#fff","backgroundColor":"#000"});
+                    console.info('(open)--点击打开一个新的webview,并加载商城详情的页面');
+                    alert(JSON.stringify(data));
+                });
+            });
+            //登陆
+            $("#login").on("click", function () {
+                Sailer.callLogin('', function () {
+                    
+                }, function () {
+                    
+                });
+            })
+            //登出
+            $("#logout").on("click", function () {
+                Sailer.callLogout('', function () {
+
+                }, function() {
+
+                });
+            });
+//            银联卡支付
+            $("#cardPay").on("click", function () {
+                var code;
+                $.ajax({
+                    type:"post",
+                    jsonType:"json",
+                    url:"http://api2.91jkys.com/mall/v3/testpay",
+                    async:false,
+                    data:{payway:3},
+                    success: function (data) {
+                        console.log(data);
+                        code=data.payString;
+                    }
+                });
+                if(code){
+                    Sailer.yinLianPay(code, function () {
+                        console.log("成功")
+                    }, function () {
+
+                        console.log("失败")
+                    });
+                }
+            });
+//            支付宝支付
+            $("#aliPay").on("click", function () {
+                var code;
+                $.ajax({
+                    type:"post",
+                    jsonType:"json",
+                    url:"http://api2.91jkys.com/mall/v3/testpay",
+                    data:{payway:2},
+                    async:false,
+                    success: function (data) {
+                        console.log(data);
+                        code=data.payString;
+                    }
+                });
+                if(code){
+                    Sailer.aliPay(code,function () {
+                        console.log("成功")
+                    }, function () {
+
+                        console.log("失败")
+                    });
+                }
+            });
+//            微信支付
+            $("#wxPay").on("click", function () {
+                var code;
+                $.ajax({
+                    type:"post",
+                    dataType:"json",
+                    url:"http://api2.91jkys.com/mall/v3/testpay",
+                    data:{payway:4},
+                    async:false,
+                    success: function (data) {
+                        console.log(data);
+                        code=data.payString;
+                    }
+                });
+                if(code){
+                    Sailer.xwpay(code, function () {
+                        console.log("成功")
+                    }, function () {
+
+                        console.log("失败")
+                    });
+                }
+            });
+        });
+    </script>
+    <style>
+        button ,a{
+            display: block;
+            width: 100%;
+            min-height: 30px;
+            background: #000;
+            color: #FFF;
+            margin: 10px 0px;
+        }
+    </style>
+</head>
+<body>
+    <button id="return">返回上一页</button>
+    <h1>首页活动页</h1>
+    <button id="openMall">活动页to商城首页</button>
+    <button id="openMallDetail">活动页to商城首页</button>
+    <button id="openCommulity">活动页to社区</button>
+    <button id="openCommulityDetail">活动页to某篇文章</button>
+    <button id="openCommulityZoo">活动页to社区圈子</button>
+    <button id="openMyCoupon">活动页to我的抵用卷</button>
+    <button id="openMyHealthy">活动页to健康档案</button>
+    <button id="openServiceIndex">活动页to医学服务首页</button>
+    <button id="openProductDetail">活动页to商品详情页</button>
+    <button id="openControlSugar">活动页to控血糖</button>
+    <button id="openWriteFood">活动页to记饮食</button>
+    <button id="openDoSports">活动页to做运动</button>
+    <button id="openStudy">活动页to学知识</button>
+    <button id="openLowSugarDetail">活动页to低糖享美味／菜谱详情页</button>
+    <button id="openClinic">活动页to掌上诊所</button>
+    <button id="openReadCode">活动页to智慧扫码</button>
+    <button id="openMySugarCoin">活动页to我的—我的糖币</button>
+    <button id="openMyCollection">活动页to我的—我的收藏</button>
+    <button id="openMyRecommend">活动页to我的—推荐有奖</button>
+    <button id="openMyRemind">活动页to我的—我的提醒</button>
+    <button id="openExchangeGifts">活动页to兑换礼品</button>
+    <button id="openRecord">活动页to兑换记录</button>
+    <button id="openControlSugarStar">活动页to控糖明星</button>
+    <button id="openShare">活动页to控糖明星</button>
+    <button id="openCopy">复制文本</button>
+    <button id="login">登陆</button>
+    <button id="logout">登出</button>
+    <button onclick="javascript:Sailer.open('activityPage.html')">活动页to活动页</a>
+    <button id="cardPay">银联卡支付</button>
+    <button id="aliPay">支付宝支付</button>
+    <button id="wxPay">微信支付</button>
+    <!--商城里面的活动页-->
+    <!--<h1>商城活动页跳转</h1>-->
+    <!--<button id="openMallFromMall">商城活动页to商城首页</button>-->
+    <!--<button id="openCommulityFromMall">商城活动页to社区</button>-->
+    <!--<button id="openCommulityDetailFromMall">商城活动页to社区某一篇帖子</button>-->
+    <!--<button id="openCommulityZooFromMall">商城活动页to社区圈子</button>-->
+    <!--<button id="openServiceIndexFromMall">商城活动页to医学服务</button>-->
+    <!--<button id="openProductDetailFromMall">商城活动页to商品详情页</button>-->
+    <!--<button id="openMyCouponFromMall">商城活动页to我的抵用券</button>-->
+    <!--<button id="openMyHealthyFromMall">商城活动页to健康档案</button>-->
+    <!--<button id="openControlSugarFromMall">商城活动页to	控血糖</button>-->
+    <!--<button id="openWriteFoodFromMall">商城活动页to	记饮食</button>-->
+    <!--<button id="openDoSportsFromMall">商城活动页to做运动</button>-->
+    <!--<button id="openStudyFromMall">商城活动页to学知识</button>-->
+    <!--<button id="openLowSugarDetailFromMall">商城活动页to低糖享美味／菜谱详情页</button>-->
+    <!--<button id="openClinicFromMall">商城活动页to掌上诊所</button>-->
+    <!--<button id="openReadCodeFromMall">商城活动页to智慧扫码</button>-->
+    <!--<button id="openMySugarCoinFromMall">商城活动页to我的—我的糖币</button>-->
+    <!--<button id="openMyCollectionFromMall">商城活动页to我的—我的收藏</button>-->
+    <!--<button id="openMyRecommendFromMall">商城活动页to我的—推荐有奖</button>-->
+    <!--<button id="openMyRemindFromMall">商城活动页to我的—我的提醒</button>-->
+    <!--<button id="openExchangeGiftsFromMall">商城活动页to兑换礼品</button>-->
+    <!--<button id="openRecordFromMall">商城活动页to兑换记录</button>-->
+    <!--<button id="openControlSugarStarFromMall">商城活动页to控糖明星</button>-->
+</body>
+</html>
